@@ -1,10 +1,12 @@
-package BoardGame;
+package BoardGame524;
 
 import java.awt.Graphics;
 
 import javax.swing.JFrame;
 
 public class GameUI {
+	private static BoardPanel panel = new BoardPanel();
+
 	public static void main(String[] args) {
 		GameUI ui = new GameUI();
 		ui.showUI();
@@ -17,13 +19,12 @@ public class GameUI {
 		jf.setTitle("Board Game");
 		jf.setLocationRelativeTo(null);
 		jf.setResizable(false);
-		BoardPanel panel = new BoardPanel();
 		jf.add(panel);
 		jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		jf.setVisible(true);
 
 		Graphics draw = panel.getGraphics();
-		GameMouse mouse = new GameMouse(draw);
+		GameMouse mouse = new GameMouse(draw, panel);
 		panel.addMouseListener(mouse);
 		panel.addMouseMotionListener(mouse);
 	}

@@ -1,5 +1,6 @@
-package BoardGame;
+package BoardGame524;
 
+import java.awt.Color;
 import java.awt.Graphics;
 
 import javax.swing.JPanel;
@@ -9,20 +10,34 @@ public class BoardPanel extends JPanel {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private int pieceSize = GameMouse.getPieceSize();
+	public static int x0 = 40, y0 = 25, size = 50, line = 15;
+	private char[][] pieceArray = GameMouse.getPieceArray();
 
 	@Override
-	protected void paintComponent(Graphics g) {
+	public void paint(Graphics g) {
 		// TODO Auto-generated method stub
 		super.paintComponent(g);
-		// g.drawRect(pieceSize/2, pieceSize/2,780 - pieceSize, 760 - pieceSize);
-		for (int i = pieceSize / 2; i < 800; i += pieceSize + 10) {
-			g.drawLine(i, pieceSize / 2, i, 745);
-//			System.out.println(i);
-//			System.out.println(pieceSize / 2);
+		for (int i = 0; i < line; i++) {
+			// horizontal line
+			g.drawLine(x0, y0 + i * size, (line - 1) * size + x0, y0 + i * size);
+			// vertical line
+			g.drawLine(x0 + i * size, y0, x0 + i * size, (line - 1) * size + y0);
 		}
-		for (int j = pieceSize / 2; j < 800; j += pieceSize + 10) {
-			g.drawLine(pieceSize / 2, j, 745, j);
+		for (int i = 0; i < pieceArray.length; i++) {
+			for (int j = 0; j < pieceArray[0].length; j++) {
+				if (pieceArray[i][j] == 'G') {
+					g.setColor(Color.GRAY);
+					g.fillOval(j * BoardPanel.size + BoardPanel.x0 - GameMouse.pieceSize / 2,
+							i * BoardPanel.size + BoardPanel.y0 - GameMouse.pieceSize / 2, GameMouse.pieceSize,
+							GameMouse.pieceSize);
+				} else if (pieceArray[i][j] == 'B') {
+					g.setColor(Color.BLACK);
+					g.fillOval(j * BoardPanel.size + BoardPanel.x0 - GameMouse.pieceSize / 2,
+							i * BoardPanel.size + BoardPanel.y0 - GameMouse.pieceSize / 2, GameMouse.pieceSize,
+							GameMouse.pieceSize);
+				}
+			}
 		}
+
 	}
 }
