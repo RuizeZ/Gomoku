@@ -6,6 +6,13 @@ import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.util.ArrayList;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
+import com.sun.java.swing.action.ExitAction;
 
 public class GameMouse implements MouseListener, MouseMotionListener {
 	private Graphics draw = null;
@@ -30,6 +37,7 @@ public class GameMouse implements MouseListener, MouseMotionListener {
 		int y = e.getY();
 		boolean changeColor = false;
 		setPieceXY(x, y);
+		System.out.println("1");
 		if (pieceX != -1 && pieceY != -1 && !win) {
 			if (pieceX < BoardPanel.line && pieceY < BoardPanel.line) {
 				if (pieceArray[pieceY][pieceX] != 'B' && pieceArray[pieceY][pieceX] != 'G') {
@@ -41,7 +49,6 @@ public class GameMouse implements MouseListener, MouseMotionListener {
 				}
 			}
 
-			
 		}
 		if (changeColor == true) {
 			if (turn.equals("BLACK")) {
@@ -55,11 +62,29 @@ public class GameMouse implements MouseListener, MouseMotionListener {
 			}
 			win = checkWin();
 			if (win) {
+				int n;
+				String[] answer = { "Play Again", "Exit" };
+				JFrame result = new JFrame();
+				result.setSize(400, 300);
+				result.setLocationRelativeTo(null);
 				if (turn.equals("GRAY")) {
-					System.out.println("BLACK win");
+					n = JOptionPane.showOptionDialog(result, "BLACK win!", "Win", JOptionPane.DEFAULT_OPTION,
+							JOptionPane.PLAIN_MESSAGE, null, answer, answer[0]);
+					result.setVisible(true);
 				} else {
-					System.out.println("GRAY win");
+					n = JOptionPane.showOptionDialog(result, "GRAY win!", "Win", JOptionPane.DEFAULT_OPTION,
+							JOptionPane.PLAIN_MESSAGE, null, answer, answer[0]);
+					result.setVisible(true);
 				}
+				if(n == 0) {
+					System.out.println(n);
+					pieceArray = new char[BoardPanel.line][BoardPanel.line];
+					panel.repaint();
+					win = false;
+				}else {
+					System.exit(0);
+				}
+				
 
 			}
 		}
@@ -73,10 +98,19 @@ public class GameMouse implements MouseListener, MouseMotionListener {
 		int horizontalSameColor = 1, verticalSameColor = 1, uprightSameColor = 1, upLeftSameColor = 1;
 		boolean stopRight = false, stopLeft = false, stopTop = false, stopDown = false, stopTopRight = false,
 				stopTopLeft = false, stopDownRight = false, stopDownLeft = false;
+		ArrayList<int[]> horizontalWinPosition = new ArrayList<int[]>();
+		ArrayList<int[]> verticalWinPosition = new ArrayList<int[]>();
+		ArrayList<int[]> uprightWinPosition = new ArrayList<int[]>();
+		ArrayList<int[]> upLeftWinPosition = new ArrayList<int[]>();
+		horizontalWinPosition.add(new int[] { pieceY, pieceX });
+		verticalWinPosition.add(new int[] { pieceY, pieceX });
+		uprightWinPosition.add(new int[] { pieceY, pieceX });
+		upLeftWinPosition.add(new int[] { pieceY, pieceX });
 		for (int i = 1; i < 5; i++) {
 			// horizontal
 			if (pieceX + i < pieceArray[pieceY].length) {
 				if (pieceArray[pieceY][pieceX + i] == color && !stopRight) {
+					horizontalWinPosition.add(new int[] { pieceY, pieceX + i });
 					horizontalSameColor++;
 				} else {
 					stopRight = true;
@@ -84,18 +118,27 @@ public class GameMouse implements MouseListener, MouseMotionListener {
 			}
 			if (pieceX - i >= 0) {
 				if (pieceArray[pieceY][pieceX - i] == color && !stopLeft) {
+					horizontalWinPosition.add(new int[] { pieceY, pieceX - i });
 					horizontalSameColor++;
 				} else {
 					stopLeft = true;
 				}
 			}
 			if (horizontalSameColor == 5) {
-				
+				draw.setColor(Color.RED);
+				for (int j = 0; j < 5; j++) {
+					int y = horizontalWinPosition.get(j)[0];
+					int x = horizontalWinPosition.get(j)[1];
+					pieceArray[y][x] = 'R';
+					draw.fillOval(x * BoardPanel.size + BoardPanel.x0 - pieceSize / 2,
+							y * BoardPanel.size + BoardPanel.y0 - pieceSize / 2, pieceSize, pieceSize);
+				}
 				return true;
 			}
 			// vertical
 			if (pieceY + i < pieceArray.length) {
 				if (pieceArray[pieceY + i][pieceX] == color && !stopDown) {
+					verticalWinPosition.add(new int[] { pieceY + i, pieceX });
 					verticalSameColor++;
 				} else {
 					stopDown = true;
@@ -103,17 +146,27 @@ public class GameMouse implements MouseListener, MouseMotionListener {
 			}
 			if (pieceY - i >= 0) {
 				if (pieceArray[pieceY - i][pieceX] == color && !stopTop) {
+					verticalWinPosition.add(new int[] { pieceY - i, pieceX });
 					verticalSameColor++;
 				} else {
 					stopTop = true;
 				}
 			}
 			if (verticalSameColor == 5) {
+				draw.setColor(Color.RED);
+				for (int j = 0; j < 5; j++) {
+					int y = verticalWinPosition.get(j)[0];
+					int x = verticalWinPosition.get(j)[1];
+					pieceArray[y][x] = 'R';
+					draw.fillOval(x * BoardPanel.size + BoardPanel.x0 - pieceSize / 2,
+							y * BoardPanel.size + BoardPanel.y0 - pieceSize / 2, pieceSize, pieceSize);
+				}
 				return true;
 			}
 			// upright
 			if (pieceX + i < pieceArray[pieceY].length && pieceY - i >= 0) {
 				if (pieceArray[pieceY - i][pieceX + i] == color && !stopTopRight) {
+					uprightWinPosition.add(new int[] { pieceY - i, pieceX + i });
 					uprightSameColor++;
 				} else {
 					stopTopRight = true;
@@ -121,17 +174,27 @@ public class GameMouse implements MouseListener, MouseMotionListener {
 			}
 			if (pieceX - i >= 0 && pieceY + i < pieceArray.length) {
 				if (pieceArray[pieceY + i][pieceX - i] == color && !stopDownLeft) {
+					uprightWinPosition.add(new int[] { pieceY + i, pieceX - i });
 					uprightSameColor++;
 				} else {
 					stopDownLeft = true;
 				}
 			}
 			if (uprightSameColor == 5) {
+				draw.setColor(Color.RED);
+				for (int j = 0; j < 5; j++) {
+					int y = uprightWinPosition.get(j)[0];
+					int x = uprightWinPosition.get(j)[1];
+					pieceArray[y][x] = 'R';
+					draw.fillOval(x * BoardPanel.size + BoardPanel.x0 - pieceSize / 2,
+							y * BoardPanel.size + BoardPanel.y0 - pieceSize / 2, pieceSize, pieceSize);
+				}
 				return true;
 			}
 			// upLeft
 			if (pieceX - i >= 0 && pieceY - i >= 0) {
 				if (pieceArray[pieceY - i][pieceX - i] == color && !stopTopLeft) {
+					upLeftWinPosition.add(new int[] { pieceY - i, pieceX - i });
 					upLeftSameColor++;
 				} else {
 					stopTopLeft = true;
@@ -139,12 +202,21 @@ public class GameMouse implements MouseListener, MouseMotionListener {
 			}
 			if (pieceX + i < pieceArray[pieceY].length && pieceY + i < pieceArray.length) {
 				if (pieceArray[pieceY + i][pieceX + i] == color && !stopDownRight) {
+					upLeftWinPosition.add(new int[] { pieceY + i, pieceX + i });
 					upLeftSameColor++;
 				} else {
 					stopDownRight = true;
 				}
 			}
 			if (upLeftSameColor == 5) {
+				draw.setColor(Color.RED);
+				for (int j = 0; j < 5; j++) {
+					int y = upLeftWinPosition.get(j)[0];
+					int x = upLeftWinPosition.get(j)[1];
+					pieceArray[y][x] = 'R';
+					draw.fillOval(x * BoardPanel.size + BoardPanel.x0 - pieceSize / 2,
+							y * BoardPanel.size + BoardPanel.y0 - pieceSize / 2, pieceSize, pieceSize);
+				}
 				return true;
 			}
 

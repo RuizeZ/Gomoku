@@ -35,6 +35,11 @@ public class BoardPanel extends JPanel {
 					g.fillOval(j * BoardPanel.size + BoardPanel.x0 - GameMouse.pieceSize / 2,
 							i * BoardPanel.size + BoardPanel.y0 - GameMouse.pieceSize / 2, GameMouse.pieceSize,
 							GameMouse.pieceSize);
+				}else if (pieceArray[i][j] == 'R') {
+					g.setColor(Color.RED);
+					g.fillOval(j * BoardPanel.size + BoardPanel.x0 - GameMouse.pieceSize / 2,
+							i * BoardPanel.size + BoardPanel.y0 - GameMouse.pieceSize / 2, GameMouse.pieceSize,
+							GameMouse.pieceSize);
 				}
 			}
 		}
