@@ -124,5 +124,5 @@ Line 6 and 7 add action listener to button. Only Actions that happened to the bu
 }
 ```
 
-Line 21 popup a option dialog with options indicates in the line 20. If player chooses first option, n = 0 and restart a new game, else n = 1, and game ends
+Line 21 popup a option dialog with options indicates in the line 20. If player chooses first option, n = 0 and restart a new game, else n = 1, and game ends.
 
