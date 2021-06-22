@@ -1,6 +1,6 @@
 # Introduction
 
-This document is a description of a java project called Gomoku. 
+This document is a description of a java project called Gomoku.
 
 > [Gomoku](https://en.wikipedia.org/wiki/Gomoku) is an abstract strategy board game. Players alternate turns placing a stone of their color on an empty intersection. Black plays first. The winner is the first player to form an unbroken chain of five stones horizontally, vertically, or diagonally.
 
