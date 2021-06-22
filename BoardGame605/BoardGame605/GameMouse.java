@@ -27,16 +27,14 @@ public class GameMouse extends GameControl implements MouseListener, MouseMotion
 		int y = e.getY();
 
 		setPieceXY(x, y);
-		if(pieceX != -1 && pieceY != -1) {
+		if (pieceX != -1 && pieceY != -1) {
 			drawPiece(pieceX, pieceY, "human");
-			if (!BoardPanel.getnewGame()) {
+			if (!BoardPanel.getnewGame() && AITurn) {
 				AIPlayer.AITurn(turn, pieceX, pieceY);
 			}
-			
+
 		}
-		
-		
-		
+
 	}
 
 	private void setPieceXY(int x, int y) {
@@ -118,7 +116,7 @@ public class GameMouse extends GameControl implements MouseListener, MouseMotion
 		} else if (e.getSource() == redoButton) {
 			pieceArray[recentPlay[0][0]][recentPlay[0][1]] = ' ';
 			pieceArray[recentPlay[1][0]][recentPlay[1][1]] = ' ';
-			turn = "BLACK";
+			turn = 'B';
 			draw.setColor(Color.BLACK);
 			gameBoardPanel.repaint();
 		}

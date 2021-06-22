@@ -17,7 +17,7 @@ public class BoardPanel extends JPanel {
 
 	@Override
 	public void paint(Graphics g) {
-		
+
 		pieceArray = GameControl.pieceArray;
 		// TODO Auto-generated method stub
 		super.paintComponent(g);
@@ -33,6 +33,7 @@ public class BoardPanel extends JPanel {
 			for (int i = 0; i < pieceArray.length; i++) {
 				for (int j = 0; j < pieceArray[0].length; j++) {
 					if (pieceArray[i][j] == 'G') {
+//						System.err.println("Gray");
 						g.setColor(Color.GRAY);
 						g.fillOval(j * BoardPanel.size + BoardPanel.x0 - GameMouse.pieceSize / 2,
 								i * BoardPanel.size + BoardPanel.y0 - GameMouse.pieceSize / 2, GameMouse.pieceSize,
@@ -59,8 +60,9 @@ public class BoardPanel extends JPanel {
 	public static void setnewGame(boolean newGame) {
 		BoardPanel.newGame = newGame;
 	}
+
 	public static boolean getnewGame() {
 		return BoardPanel.newGame;
 	}
-	
+
 }
