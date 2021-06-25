@@ -26,6 +26,8 @@ public class BoardPanel extends JPanel {
 	private static boolean newGame = false;
 ```
 
+pieceArray is a 2d array, the index of the array is the location on the board. If it is G, a gray piece has been placed on this location; if it is B, a black piece has been placed on this location; if it is default, there is no piece.
+
 ## Methods
 
 * paint\(Graphics g\)
