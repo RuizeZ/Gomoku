@@ -30,7 +30,7 @@ pieceArray is a 2d array, the index of the array is the location on the board. I
 
 ## Methods
 
-* paint\(Graphics g\)
+* paint\(Graphics g\): paint the game board and all the pieces
 
 ```java
 @Override

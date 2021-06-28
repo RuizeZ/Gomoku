@@ -41,7 +41,7 @@ public static Timer timer;// Timer object to set the count down
 > 1. **BorderLayout\(\):** It will construct a new borderlayout with no gaps between the components.
 > 2. **BorderLayout\(int, int\):** It will constructs a border layout with the specified gaps between the components
 
-![](.gitbook/assets/image%20%282%29%20%282%29.png)
+![](.gitbook/assets/image%20%282%29%20%282%29%20%282%29.png)
 
 ```java
 		// set gameSettingPanel
