@@ -4,4 +4,5 @@
 * [Overall Description](overall-description.md)
 * [Class GameUI](class-gameui.md)
 * [Class BoardPanel](class-boardpanel.md)
+* [Class GameControl](class-gamecontrol.md)
 
