@@ -229,33 +229,47 @@ private void changeTurn(int pieceX, int pieceY) {
 		String upLeftKey = "" + scoreColor;
 		char[][] currentArray = theArray;
 		char color = currentArray[pieceY][pieceX];
-		// count the 
+		// count the numner of the continuous pieces that are in the same color for each 
+		// direction
 		int horizontalSameColor = 1, verticalSameColor = 1, uprightSameColor = 1, upLeftSameColor = 1;
+		// if there is an empty position or a different color, stop the search on that 
+		// direction
 		boolean stopRight = false, stopLeft = false, stopTop = false, stopDown = false, stopTopRight = false,
 				stopTopLeft = false, stopDownRight = false, stopDownLeft = false;
+		// if win, the five continuous pieces will change to red, those arrays record those pieces
 		ArrayList<int[]> horizontalWinPosition = new ArrayList<int[]>();
 		ArrayList<int[]> verticalWinPosition = new ArrayList<int[]>();
 		ArrayList<int[]> uprightWinPosition = new ArrayList<int[]>();
 		ArrayList<int[]> upLeftWinPosition = new ArrayList<int[]>();
+		// add the current focused piece to array
 		horizontalWinPosition.add(new int[] { pieceY, pieceX });
 		verticalWinPosition.add(new int[] { pieceY, pieceX });
 		uprightWinPosition.add(new int[] { pieceY, pieceX });
 		upLeftWinPosition.add(new int[] { pieceY, pieceX });
+		//if this method is for calculating the score, set the color to scoreColor
 		if (AI) {
 			color = scoreColor;
 		}
+		// check five position for each direction
 		for (int i = 1; i < 5; i++) {
 			// horizontal
+			//to left
 			if (pieceX + i < currentArray[pieceY].length) {
+				// if next positive is same color and not stop
 				if (currentArray[pieceY][pieceX + i] == color && !stopRight) {
+				// add this position to the array
 					horizontalWinPosition.add(new int[] { pieceY, pieceX + i });
+					// add this char to the key
 					horizontalKey += currentArray[pieceY][pieceX + i];
 					horizontalSameColor++;
-				} else if (!stopRight) {
+				} 
+				// if the next position is a different color
+				else if (!stopRight) {
 					if (Character.isLetter(currentArray[pieceY][pieceX + i])) {
+					// add this char to the key
 						horizontalKey += currentArray[pieceY][pieceX + i];
 					}
-
+					// stop search at this direction
 					stopRight = true;
 				}
 			}
@@ -273,12 +287,16 @@ private void changeTurn(int pieceX, int pieceY) {
 					stopLeft = true;
 				}
 			}
+			// if the method is to check the winner
 			if (!AI) {
+			// if we find 5 continuous pieces that are same color
 				if (horizontalSameColor == 5) {
+				//change color to red
 					draw.setColor(Color.RED);
 					for (int j = 0; j < 5; j++) {
 						int y = horizontalWinPosition.get(j)[0];
 						int x = horizontalWinPosition.get(j)[1];
+						//change those positions to 'R' for repaint
 						currentArray[y][x] = 'R';
 						draw.fillOval(x * BoardPanel.size + BoardPanel.x0 - pieceSize / 2,
 								y * BoardPanel.size + BoardPanel.y0 - pieceSize / 2, pieceSize, pieceSize);
@@ -405,8 +423,10 @@ private void changeTurn(int pieceX, int pieceY) {
 
 			}
 		}
+		// if this method is to calculate the score
 		if (AI == true) {
 			score = 10;
+			// add score for each direction
 			if (horizontalKey != "") {
 				score += scoreHash.get(horizontalKey);
 			}
@@ -425,4 +445,27 @@ private void changeTurn(int pieceX, int pieceY) {
 		return false;
 	}
 ```
+
+This is the heart of the whole project. We search four direction at same time. We also search two opposition directions at same time, such as right and left. Stop searching at one direction if the next position is empty or has a different color piece. Recording all the same color pieces in four arrays\(horizontalWinPosition, verticalWinPosition, uprightWinPosition, upLeftWinPosition\), if any of the arrays has five pieces, there is a winner and we change those five pieces to Red. We also record the pattern we found to key, if this method is for calculating the score, i.e. AI == true, calculate the score for each direction\(horizontalKey, verticalKey, uprightKey, upLeftKey\).
+
+* restartGame: reset the game to default and start a new
+
+```java
+	// restart the game
+	public static void restartGame() {
+	// reset the pieceArray
+		pieceArray = new char[BoardPanel.line][BoardPanel.line];
+		//set the flag newGame to true	
+		BoardPanel.setnewGame(true);
+		//repaint the board with no piece
+		gameBoardPanel.repaint();
+		//reset the flag, turn and time
+		win = false;
+		turn = 'B';
+		draw.setColor(Color.BLACK);
+		GameUI.second = 16;
+	}
+```
+
+
 
